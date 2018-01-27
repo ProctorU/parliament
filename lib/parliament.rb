@@ -1,3 +1,1 @@
-module Parliament
-  # Your code goes here...
-end
+require 'parliament/engine'
