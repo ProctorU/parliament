@@ -9,9 +9,18 @@ module Parliament
     end
 
     def remove_association(link_name, options = {}, &block)
+      options[:class] = build_css_for_remove_association(options)
+
+      hidden_field('_destroy') + @template.link_to(link_name, '#', options)
     end
 
     private
+
+    def build_css_for_remove_association(options)
+      classes = []
+      classes << 'remove_fields'
+      [options[:class], classes.join(' ')].compact.join(' ')
+    end
 
     def render_association
     end
