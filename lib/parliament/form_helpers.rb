@@ -6,7 +6,8 @@
 module Parliament
   class ActionView::Helpers::FormBuilder
     def add_association(link_name, association, options = {}, &block)
-      options[:'data-insertion-template'] = build_insertion_template(options, association)
+      options[:'data-action'] = 'insert-template'
+      options[:'data-insertion-template'] = build_insertion_template(association, options)
       @template.link_to(link_name, '#', options)
     end
 
@@ -24,12 +25,12 @@ module Parliament
       [options[:class], classes.join(' ')].compact.join(' ')
     end
 
-    def build_insertion_template(options, association)
+    def build_insertion_template(association, _options)
       custom_partial = nil
       partial = get_partial_path(custom_partial, association)
       new_object = create_object(object, association)
       locals = {}
-      send(:fields_for, association, new_object, {child_index: "new_#{association}"}) do |builder|
+      send(:fields_for, association, new_object, {child_index: Time.zone.now.to_i}) do |builder|
         @template.render(partial, {f: builder, dynamic: true}.merge(locals))
       end
     end
