@@ -25,7 +25,10 @@ var Parliament = (function () {
     value: function handleClick(selector, event) {
       event.preventDefault();
 
-      selector.insertAdjacentHTML('beforebegin', selector.getAttribute('data-insertion-template'));
+      var template = selector.getAttribute('data-insertion-template');
+      template = template.replace(/parliament_child/g, new Date().getTime());
+
+      selector.insertAdjacentHTML('beforebegin', template);
     }
   }]);
 

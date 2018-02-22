@@ -30,8 +30,8 @@ module Parliament
       partial = get_partial_path(custom_partial, association)
       new_object = create_object(object, association)
       locals = {}
-      send(:fields_for, association, new_object, {child_index: Time.zone.now.to_i}) do |builder|
-        @template.render(partial, {f: builder, dynamic: true}.merge(locals))
+      send(:fields_for, association, new_object, child_index: :parliament_child) do |builder|
+        @template.render(partial, { f: builder, dynamic: true }.merge(locals))
       end
     end
 
