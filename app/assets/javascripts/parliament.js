@@ -8,27 +8,51 @@ var Parliament = (function () {
   function Parliament() {
     _classCallCheck(this, Parliament);
 
-    this.actionSelectors = document.querySelectorAll('[data-action="insert-template"]');
+    this.insertSelectors = document.querySelectorAll('[parliament-action="insert-template"]');
+
+    this.removeSelectors = document.querySelectorAll(['[parliament-action="remove-template"]']);
   }
 
   _createClass(Parliament, [{
+    key: 'canRemoveTemplate',
+    value: function canRemoveTemplate(target) {
+      return target.getAttribute('parliament-action') === 'remove-template';
+    }
+  }, {
     key: 'init',
     value: function init() {
       var _this = this;
 
-      this.actionSelectors.forEach(function (selector) {
-        selector.addEventListener('click', _this.handleClick.bind(_this, selector));
+      this.insertSelectors.forEach(function (selector) {
+        selector.addEventListener('click', _this.insertTemplate.bind(_this, selector));
+      });
+
+      document.body.addEventListener('click', function (event) {
+        if (_this.canRemoveTemplate(event.target)) {
+          event.preventDefault();
+
+          _this.removeTemplate(event.target);
+        }
       });
     }
   }, {
-    key: 'handleClick',
-    value: function handleClick(selector, event) {
+    key: 'insertTemplate',
+    value: function insertTemplate(selector, event) {
       event.preventDefault();
 
-      var template = selector.getAttribute('data-insertion-template');
+      var template = selector.getAttribute('parliament-insertion-template');
       template = template.replace(/parliament_child/g, new Date().getTime());
 
       selector.insertAdjacentHTML('beforebegin', template);
+    }
+  }, {
+    key: 'removeTemplate',
+    value: function removeTemplate(target) {
+      var parent = target.closest('.nested-fields');
+      var input = parent.querySelector('[parliament-element="remove-template"]');
+
+      input.setAttribute('value', true);
+      parent.style.display = 'none';
     }
   }]);
 

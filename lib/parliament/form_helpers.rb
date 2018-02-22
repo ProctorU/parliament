@@ -6,24 +6,18 @@
 module Parliament
   class ActionView::Helpers::FormBuilder
     def add_association(link_name, association, options = {}, &block)
-      options[:'data-action'] = 'insert-template'
-      options[:'data-insertion-template'] = build_insertion_template(association, options)
+      options[:'parliament-action'] = 'insert-template'
+      options[:'parliament-insertion-template'] = build_insertion_template(association, options)
       @template.link_to(link_name, '#', options)
     end
 
     def remove_association(link_name, options = {}, &block)
-      options[:class] = build_css_for_remove_association(options)
+      options[:'parliament-action'] = 'remove-template'
 
-      hidden_field('_destroy') + @template.link_to(link_name, '#', options)
+      hidden_field('_destroy', 'parliament-element' => 'remove-template') + @template.link_to(link_name, '#', options)
     end
 
     private
-
-    def build_css_for_remove_association(options)
-      classes = []
-      classes << 'remove_fields'
-      [options[:class], classes.join(' ')].compact.join(' ')
-    end
 
     def build_insertion_template(association, _options)
       custom_partial = nil
