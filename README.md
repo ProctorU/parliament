@@ -30,6 +30,13 @@ Or install it yourself as:
 $ gem install parliament
 ```
 
+**Note**: If you use turbolinks, this should be placed _after_ loading turbolinks.
+
+In your application.js:
+
+```javascript
+//= require parliament
+```
 ## Usage
 
 We're not sure yet.
