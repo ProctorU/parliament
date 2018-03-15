@@ -14,6 +14,15 @@ class Parliament::FormBuilderTest < ActionView::TestCase
     assert_includes form_string, 'type="hidden"'
   end
 
+  test 'add_association returns a link' do
+    assert_includes form_string_add, 'link_name_add'
+  end
+
+  test 'add_association returns a insertion-template' do
+    assert_includes form_string_add, 'insert-template'
+    assert_includes form_string_add, 'post[comments_attributes][parliament_child][comment]'
+  end
+
   private
 
   def form_string
@@ -21,6 +30,12 @@ class Parliament::FormBuilderTest < ActionView::TestCase
       f.fields_for :comments do |comment|
         comment.remove_association('link_name')
       end
+    end
+  end
+
+  def form_string_add
+    @form_string ||= form_for(@post) do |f|
+      f.add_association('link_name_add', :comments)
     end
   end
 end
