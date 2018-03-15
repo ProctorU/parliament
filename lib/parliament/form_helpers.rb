@@ -14,8 +14,8 @@ module Parliament
 
     private
 
-    def build_insertion_template(association, _options)
-      custom_partial = nil
+    def build_insertion_template(association, options)
+      custom_partial = options[:custom_partial]
       partial = get_partial_path(custom_partial, association)
       new_object = create_object(object, association)
       locals = {}
@@ -29,7 +29,8 @@ module Parliament
     end
 
     def create_object(object, association)
-      object.send(association).build
+      return object.send(association).build if object.class.reflect_on_association(association)
+      object.send("build_#{association.to_s.singularize}")
     end
   end
 end
