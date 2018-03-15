@@ -59,6 +59,17 @@ var Parliament = (function () {
   return Parliament;
 })();
 
-document.addEventListener('DOMContentLoaded', function () {
+function checkDomEvent() {
+  if (window.Turbolinks != null && window.Turbolinks.supported) {
+    if (window.Turbolinks.EVENTS != null) {
+      return 'page:change';
+    } else {
+      return 'turbolinks:load';
+    }
+  } else {
+    return 'DOMContentLoaded';
+  }
+}
+document.addEventListener(window.checkDomEvent(), function () {
   new Parliament().init();
 });
