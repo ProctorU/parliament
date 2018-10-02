@@ -97,9 +97,10 @@ Additionally, we call `f.add_association` a FormBuilder method to add another fi
 ```erb
 <div class="nested-fields mb-1">
     <div class="input-group">
-      <%= f.text_field :description, { class: "form-control" }%>
+      <%= f.text_field :description, class: "form-control" %>
 
-      <%# For more complicated associations, this could be a select dropdown instead or multiple fields %>
+      <%= f.check_box :done %>
+      <%= f.label :done %>
 
       <span class="input-group-append">
         <%= f.remove_association 'Remove', { class: 'btn btn-outline-danger' } %>
