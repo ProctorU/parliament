@@ -63,9 +63,11 @@ Moving on, we'll need to add the parameters to the controller.
 ```ruby
 # ProjectsController
 
-  def project_params
-    params.require(:project).permit(:name, :description, tasks_attributes: [:id, :description, :done, :_destroy])
-  end
+private
+
+def project_params
+  params.require(:project).permit(:name, :description, tasks_attributes: [:id, :description, :done, :_destroy])
+end
 ```
 
 Notice how we added the _destroy parameter, this is important to allow us to remove the records. Additionally, the id parameter is required.
@@ -75,7 +77,7 @@ Notice how we added the _destroy parameter, this is important to allow us to rem
 Inside of our Project form, we'll have a simple fields_for addition that will loop through all of the tasks and render a `task_fields` partial which will contain the elements used for entering a new task, or modifying an existing task.
 
 
-```ruby
+```erb
 <div class="form-group">
   <%= f.label(:tasks) %>
 
@@ -92,10 +94,10 @@ Inside of our Project form, we'll have a simple fields_for addition that will lo
 Additionally, we call `f.add_association` a FormBuilder method to add another field so you can add an additional task. While other gems like Cocoon take a global approach with a helper, this scopes things to forms so they are not globally available.
 
 **_task_fields.html.erb**
-```ruby
+```erb
 <div class="nested-fields mb-1">
     <div class="input-group">
-      <%= f.text_field :name, { class: "form-control" }%>
+      <%= f.text_field :description, { class: "form-control" }%>
 
       <%# For more complicated associations, this could be a select dropdown instead or multiple fields %>
 
