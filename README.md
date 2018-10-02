@@ -76,7 +76,7 @@ end
 
 **Form**
 
-Inside of our Project form, we'll have a simple fields_for addition that will loop through all of the tasks and render a `task_fields` partial which will contain the elements used for entering a new task, or modifying an existing task.
+Inside the Project form, add a `fields_for` loop that will pass the `task` to the `task_fields` partial for adding or updating.
 
 **projects/_form.html.erb**
 ```erb
