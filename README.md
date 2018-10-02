@@ -44,24 +44,28 @@ Given a simple application with Tasks belonging to Projects, the first thing to 
 **Models**
 
 ```ruby
+# app/models/project.rb
 class Project < ApplicationRecord
   has_many :tasks, inverse_of: :project
   accepts_nested_attributes_for :tasks, reject_if: :all_blank, allow_destroy: true
 end
 
+# app/models/task.rb
 class Task < ApplicationRecord
   belongs_to :project
 end
 ```
 
-Because Rails 5 and above belongs_to associations are required by default, we must specify the link because the child object(tasks) cannot be saved until the parent (a project) is saved.
+Because Rails 5 and above belongs_to associations are required by default, we must specify the link with `inverse_of` because the child object(tasks) cannot be saved until the parent (a project) is saved.
 
 Moving on, we'll need to add the parameters to the controller.
+- `id` and `_destroy` are required for Strong Params.
 
 **Controller**
 
 ```ruby
-# ProjectsController
+# Projects Controller
+# app/controllers/projects_controller.rb
 
 private
 
@@ -70,14 +74,13 @@ def project_params
 end
 ```
 
-Notice how we added the _destroy parameter, this is important to allow us to remove the records. Additionally, the id parameter is required.
-
 **Form**
 
 Inside of our Project form, we'll have a simple fields_for addition that will loop through all of the tasks and render a `task_fields` partial which will contain the elements used for entering a new task, or modifying an existing task.
 
-
+**projects/_form.html.erb**
 ```erb
+# Rest of file omitted
 <div class="form-group">
   <%= f.label(:tasks) %>
 
@@ -89,9 +92,11 @@ Inside of our Project form, we'll have a simple fields_for addition that will lo
     'tasks',
     class: 'btn btn-secondary btn-sm' %>
 </div>
+
+# Rest of file omitted
 ```
 
-Additionally, we call `f.add_association` a FormBuilder method to add another field so you can add an additional task. While other gems like Cocoon take a global approach with a helper, this scopes things to forms so they are not globally available.
+Additionally, we call `f.add_association`, a form builder method, which generates a link with data attributes that Parliament's javascript will call to insert another field. While other gems like Cocoon take a global approach with a helper, this scopes things to forms so they are not globally available.
 
 **_task_fields.html.erb**
 ```erb
@@ -112,14 +117,13 @@ Additionally, we call `f.add_association` a FormBuilder method to add another fi
 
 The two important bits here are the `.nested-fields` class added to the parent element, and the `f.remove_association` form builder link we provide, this communicates with the Javascript so that it removes the proper element if the user clicks the remove button.
 
-
 ## Developing
 
-1. Thank you! We love [our contributors](https://github.com/:owner/:name/graphs/contributors)!
+1. Thank you! We love [our contributors](https://github.com/ProctorU/parliament/graphs/contributors)!
 1. Clone the repository.
 1. Make your changes in a thoughtfully-named branch.
 1. Ensure 1:1 test coverage.
-1. Submit a [Pull Request](https://github.com/:owner/:name/pulls)!
+1. Submit a [Pull Request](https://github.com/ProctorU/parliament/pulls)!
 1. Celebrate! :tada:
 
 ## License
