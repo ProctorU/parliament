@@ -64,8 +64,8 @@ Example:
 
 **Form**
 
-* Add a `fields_for` loop that you render the task_fields from, passing each object to it.
-* Ensure you call the `f.add_association` helper where you want the link displayed that a user can press to inject another field onto the DOM.
+* Add a `fields_for` loop that you render your fields partial from, passing each object to it.
+* Ensure you call the `f.add_association` helper where you want the link displayed that a user will press to inject another field onto the DOM.
 
 In the case of a Project/Tasks association:
 
