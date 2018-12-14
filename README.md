@@ -39,40 +39,28 @@ In your application.js:
 ```
 ## Usage
 
-Given a simple application with Tasks belonging to Projects, the first thing to do is allow your Project model to accepts_nested_attributes_for.
-
 **Models**
 
-```ruby
-# app/models/project.rb
-class Project < ApplicationRecord
-  has_many :tasks, inverse_of: :project
-  accepts_nested_attributes_for :tasks, reject_if: :all_blank, allow_destroy: true
-end
+* Add `accepts_nested_attributes_for` to your parent.
+* Add `belongs_to` to your association.
 
-# app/models/task.rb
-class Task < ApplicationRecord
-  belongs_to :project
-end
-```
+**Controllers**
 
-Because Rails 5 and above belongs_to associations are required by default, we must specify the link with `inverse_of` because the child object(tasks) cannot be saved until the parent (a project) is saved.
-
-Moving on, we'll need to add the parameters to the controller.
+Add the parameters to your controllers for strong params
 - `id` and `_destroy` are required for Strong Params.
 
-**Controller**
+Example:
 
-```ruby
-# Projects Controller
-# app/controllers/projects_controller.rb
+  ```ruby
+  # Projects Controller
+  # app/controllers/projects_controller.rb
 
-private
+  private
 
-def project_params
-  params.require(:project).permit(:name, :description, tasks_attributes: [:id, :description, :done, :_destroy])
-end
-```
+  def project_params
+    params.require(:project).permit(:name, :description, tasks_attributes: [:id, :description, :done, :_destroy])
+  end
+  ```
 
 **Form**
 
