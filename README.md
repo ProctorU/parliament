@@ -1,6 +1,6 @@
 # Parliament 🔨
 
-Vanilla javascript nested form builder.
+Vanilla JavaScript nested form builder.
 
 ## Table of contents
 
@@ -64,46 +64,46 @@ Example:
 
 **Form**
 
-Inside the Project form, add a `fields_for` loop that will pass the `task` to the `task_fields` partial for adding or updating.
+* Add a `fields_for` loop that you render the task_fields from, passing each object to it.
+* Ensure you call the `f.add_association` helper where you want the link displayed that a user can press to inject another field onto the DOM.
 
-**projects/_form.html.erb**
-```erb
-# Rest of file omitted
-<div class="form-group">
-  <%= f.label(:tasks) %>
+In the case of a Project/Tasks association:
 
-  <%= f.fields_for :tasks do |task| %>
-    <%= render 'task_fields', f: task %>
-  <% end %>
+Example:
 
-  <%= f.add_association 'Add Task',
-    'tasks',
-    class: 'btn btn-secondary btn-sm' %>
-</div>
+  ```erb
+  # Rest of file omitted
+  <div class="form-group">
+    <%= f.label(:tasks) %>
 
-# Rest of file omitted
-```
+    <%= f.fields_for :tasks do |task| %>
+      <%= render 'task_fields', f: task %>
+    <% end %>
 
-Additionally, we call `f.add_association`, a form builder method, which generates a link with data attributes that Parliament's javascript will call to insert another field. While other gems like Cocoon take a global approach with a helper, this scopes things to forms so they are not globally available.
+    <%= f.add_association 'Add Task',
+      'tasks',
+      class: 'btn btn-secondary btn-sm' %>
+  </div>
+
+  # Rest of file omitted
+  ```
+
+Inside of your record's fields partial:
+
+* Use the `f.remove_association` helper. This will execute JavaScript to remove the proper element from the page.
+* Ensure the contents of the fields are wrapped in a div with the `nested-fields` CSS class.
 
 **_task_fields.html.erb**
 ```erb
-<div class="nested-fields mb-1">
-    <div class="input-group">
-      <%= f.text_field :description, class: "form-control" %>
+<div class="nested-fields">
+  <%= f.text_field :description, class: "form-control" %>
 
-      <%= f.check_box :done %>
-      <%= f.label :done %>
+  <%= f.check_box :done %>
+  <%= f.label :done %>
 
-      <span class="input-group-append">
-        <%= f.remove_association 'Remove', { class: 'btn btn-outline-danger' } %>
-      </span>
-    </div>
-  </div>
+  <%= f.remove_association 'Remove', { class: 'btn btn-outline-danger' } %>
 </div>
 ```
-
-The two important bits here are the `.nested-fields` class added to the parent element, and the `f.remove_association` form builder link we provide, this communicates with the Javascript so that it removes the proper element if the user clicks the remove button.
 
 ## Developing
 
@@ -116,7 +116,7 @@ The two important bits here are the `.nested-fields` class added to the parent e
 
 ## License
 
-This project rocks and uses MIT-LICENSE.
+This project uses MIT-LICENSE.
 
 ## Credits
 
