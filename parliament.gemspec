@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = "parliament"
   s.version     = Parliament::VERSION
   s.authors     = ["Kevin Brown", "Justin Licata"]
-  s.email       = ["kdbrown@proctoru.com", "jlicata@proctoru.com"]
+  s.email       = ["chevinbrown@gmail.com", "licata.justin@gmail.com"]
   s.homepage    = "https://github.com/proctoru/parliament"
   s.summary     = "Vanilla javascript nested forms for rails."
   s.description = "Vanilla javascript nested forms for rails."
