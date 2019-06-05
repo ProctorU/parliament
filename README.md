@@ -1,6 +1,6 @@
 # Parliament 🔨
 
-Vanilla JavaScript nested form builder.
+Vanilla JavaScript nested form builder. Its name is derived ProctorU's mascot, which is an owl. A group of owls when assembled is called a parliament, and it was in fact a parliament that created this gem.
 
 ## Table of contents
 
